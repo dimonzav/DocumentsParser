@@ -9,23 +9,23 @@
 
     public class LogService : ILogService
     {
-        private readonly IParserRepository parserRepository;
+        private readonly ILogRepository logRepository;
 
-        public LogService(IParserRepository parserRepository)
+        public LogService(ILogRepository logRepository)
         {
-            this.parserRepository = parserRepository;
+            this.logRepository = logRepository;
         }
 
         public async Task SaveLog(LogModel logModel)
         {
-            await this.parserRepository.SaveLog(logModel.ToEntity());
+            await this.logRepository.SaveLog(logModel.ToEntity());
         }
 
         public void SaveLogs(List<LogModel> logModels)
         {
             List<Log> logs = ToList<Log, LogModel>(logModels);
 
-            this.parserRepository.SaveLogs(logs);
+            this.logRepository.SaveLogs(logs);
         }
 
         private List<TEntity> ToList<TEntity, TModel>(List<TModel> models)

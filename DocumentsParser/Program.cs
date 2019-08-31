@@ -14,7 +14,7 @@
             ServiceProvider serviceProvider = new ServiceCollection()
             .AddLogging()
             .AddSingleton<DataAccess.DataContext>()
-            .AddSingleton<IParserRepository, ParserRepository>()
+            .AddSingleton<ILogRepository, LogRepository>()
             .AddSingleton<BlockingCollectionParserService>()
             .AddSingleton<ParallelForeachParserService>()
             .AddSingleton<ILogService, LogService>()

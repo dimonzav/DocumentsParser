@@ -5,11 +5,11 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public class ParserRepository : IParserRepository
+    public class LogRepository : ILogRepository
     {
         private readonly DataContext dataContext;
 
-        public ParserRepository(DataContext dataContext)
+        public LogRepository(DataContext dataContext)
         {
             this.dataContext = dataContext;
         }

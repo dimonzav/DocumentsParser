@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public interface IParserRepository
+    public interface ILogRepository
     {
         Task SaveLog(Log log);
 
