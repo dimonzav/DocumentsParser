@@ -2,6 +2,7 @@
 {
     using DataAccess.Entities;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
 
     public class DataContext : DbContext
     {
@@ -9,7 +10,13 @@
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(System.Configuration.ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json")
+            .Build();
+
+            string conn = configuration.GetConnectionString("ParserDatabase");
+
+            optionsBuilder.UseSqlServer(conn);
         }
     }
 }

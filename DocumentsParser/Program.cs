@@ -2,10 +2,10 @@
 {
     using Business.Services;
     using CommandLine;
+    using DataAccess;
     using DataAccess.Repositories;
-    using Microsoft.Extensions.Configuration;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
-    using System.IO;
 
     class Program
     {
@@ -15,12 +15,24 @@
             
             ServiceProvider serviceProvider = new ServiceCollection()
             .AddLogging()
-            .AddSingleton<DataAccess.DataContext>()
+            .AddSingleton<DataContext>()
             .AddSingleton<ILogRepository, LogRepository>()
             .AddSingleton<BlockingCollectionParserService>()
             .AddSingleton<ParallelForeachParserService>()
             .AddSingleton<ILogService, LogService>()
             .BuildServiceProvider();
+
+            using (DataContext context = new DataContext())
+            {
+                try
+                {
+                    context.Database.Migrate();
+                }
+                catch
+                {
+                    throw;
+                }
+            }
 
             Parser.Default
                 .ParseArguments<ParallelForeachParserOptions, BlockingCollectionParserOptions>(args)
