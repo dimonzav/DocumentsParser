@@ -22,6 +22,6 @@ To run the application:
 
 7. For using BlockingCollection run "dotnet DocumentsParser.dll b -f "path/to/folder/with/logs".
 
-8. By default parsed logs from specified files do not saving to database. To enable it use option "-s" and value "true".
+8. By default parsed logs from specific files do not save to database. To enable it use option "-s" and value "true".
 
 - "dotnet DocumentsParser.dll a -f "path/to/folder/with/logs -s true"
