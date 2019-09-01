@@ -9,7 +9,7 @@
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=(LocalDB)\\ProjectsV13;Initial Catalog=parser_db;Integrated Security=True;Connection Timeout=90;MultipleActiveResultSets=true;");
+            optionsBuilder.UseSqlServer(System.Configuration.ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
         }
     }
 }

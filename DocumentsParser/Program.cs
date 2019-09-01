@@ -3,14 +3,16 @@
     using Business.Services;
     using CommandLine;
     using DataAccess.Repositories;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using System.IO;
 
     class Program
     {
         static void Main(string[] args)
         {
             args = new[] { "a", "-f", @"C:\Users\dmytr\Desktop\log3" };
-
+            
             ServiceProvider serviceProvider = new ServiceCollection()
             .AddLogging()
             .AddSingleton<DataAccess.DataContext>()

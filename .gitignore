@@ -14,3 +14,5 @@
 /DocumentsParser/obj
 /DataAccess.Tests/bin/Debug/netcoreapp2.2
 /DataAccess.Tests/obj
+/DataAccessLayer/DataAccess.Tests/bin/Debug/netcoreapp2.2
+/DataAccessLayer/DataAccess.Tests/obj
