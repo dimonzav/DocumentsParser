@@ -1,6 +1,6 @@
 # Documents Parser
 
-Documents Parser is a Console Application using command line parameters to run few methods to parse specified log files.
+Documents Parser is a Console Application using command line parameters to run a few methods to parse specified log files.
 
 To run the application:
 
@@ -11,7 +11,7 @@ To run the application:
 3. Build the solution;
 
 4. Run the application:
-- go to folder where solution is build
+- go to folder where solution is build;
 - run from command line "dotnet DocumentsParser.dll" and check the available options list.
 
 5. There are two methods available to run the parser from:
