@@ -5,7 +5,6 @@
     using DataAccess.Repositories;
     using System;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
 
     public class LogService : ILogService
     {
@@ -16,9 +15,9 @@
             this.logRepository = logRepository;
         }
 
-        public async Task SaveLog(LogModel logModel)
+        public void SaveLog(LogModel logModel)
         {
-            await this.logRepository.SaveLog(logModel.ToEntity());
+            this.logRepository.SaveLog(logModel.ToEntity());
         }
 
         public void SaveLogs(List<LogModel> logModels)

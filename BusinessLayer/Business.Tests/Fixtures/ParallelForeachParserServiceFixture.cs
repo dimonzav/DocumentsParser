@@ -5,13 +5,13 @@
     using System.IO;
     using Xunit;
 
-    public class ParserServiceFixture
+    public class ParallelForeachParserServiceFixture
     {
         private IParserService parserService;
 
         private Mock<ILogService> logService;
 
-        public ParserServiceFixture()
+        public ParallelForeachParserServiceFixture()
         {
             this.logService = new Mock<ILogService>();
 
@@ -19,7 +19,7 @@
         }
 
         [Fact]
-        public void ParseFileTest()
+        public void RunParserTest()
         {
             string[] mockFiles = new string[]
             {
@@ -27,6 +27,8 @@
                 "./TestFiles/logs_02.out",
                 "./TestFiles/logs_03.out"
             };
+
+            bool isSaveLogsToDB = false;
 
             int linesAmount = 0;
 
@@ -38,7 +40,7 @@
                 linesAmount += (lines.Length - 1);
             }
 
-            parserService.RunParser(mockFiles);
+            parserService.RunParser(mockFiles, isSaveLogsToDB);
 
             Assert.True(ParallelForeachParserService.logModels.Count > 0);
             Assert.Equal(linesAmount, ParallelForeachParserService.logModels.Count);

@@ -24,7 +24,7 @@
         }
 
         [Fact]
-        public async Task SaveLogTest_Success_Async()
+        public void SaveLogTest_Success()
         {
             Log logEntity = new Log
             {
@@ -43,7 +43,7 @@
                 .ReturnsAsync(savedRecords)
                 .Verifiable();
 
-            await logRepository.SaveLog(logEntity);
+            logRepository.SaveLog(logEntity);
 
             mockDataContext.Verify(x => x.SaveChangesAsync(default(CancellationToken)), Times.Once());
 
@@ -51,7 +51,7 @@
         }
 
         [Fact]
-        public async Task SaveLogTest_Failed_Async()
+        public void SaveLogTest_Failed()
         {
             Log logEntity = new Log
             {
@@ -70,7 +70,7 @@
                 .ReturnsAsync(savedRecords)
                 .Verifiable();
 
-            Exception exception = await Assert.ThrowsAsync<Exception>(async () => await logRepository.SaveLog(logEntity));
+            Exception exception = Assert.Throws<Exception>(() => logRepository.SaveLog(logEntity));
 
             mockDataContext.Verify(x => x.SaveChangesAsync(default(CancellationToken)), Times.Once());
         }

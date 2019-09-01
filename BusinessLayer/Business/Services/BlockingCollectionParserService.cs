@@ -4,6 +4,7 @@
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.Threading.Tasks;
 
@@ -20,17 +21,19 @@
             this.logService = logService;
         }
 
-        public void RunParser(string[] files)
+        public void RunParser(string[] files, bool isSaveLogsToDB)
         {
             Task task1 = Task.Run(() =>
             {
                 try
                 {
+                    Stopwatch stopwatch = Stopwatch.StartNew();
+
                     Parallel.ForEach(files, file =>
                     {
-                        Console.WriteLine();
                         Console.Write($"Read file {file} starts...");
                         Console.WriteLine();
+                        
 
                         using (var reader = new StreamReader(file))
                         {
@@ -45,6 +48,11 @@
                         Console.Write($"Read file {file} ends.");
                         Console.WriteLine();
                     });
+
+                    stopwatch.Stop();
+
+                    Console.Write($"Time execution on parse files {stopwatch.ElapsedMilliseconds}");
+                    Console.WriteLine();
                 }
                 finally
                 {
@@ -54,7 +62,7 @@
 
             Task task2 = Task.Run(() =>
             {
-                foreach(string line in lines.GetConsumingEnumerable())
+                foreach (string line in lines.GetConsumingEnumerable())
                 {
                     string[] lineSplit = line.Split("\t");
 
@@ -72,12 +80,38 @@
                     }
 
                     logModels.Add(logModel);
-
-                    logService.SaveLog(logModel).Wait();
                 };
+
+                Console.Write($"{logModels.Count} logs line parsed from {files.Length} log files.");
+                Console.WriteLine();
             });
 
             Task.WaitAll(task1, task2);
+
+            this.SaveLogsToDB(isSaveLogsToDB);
+        }
+
+        private void SaveLogsToDB(bool isSaveLogsToDB)
+        {
+            if (!isSaveLogsToDB)
+            {
+                return;
+            }
+
+            Console.Write($"Saving {logModels.Count} logs to database.");
+            Console.WriteLine();
+
+            Stopwatch stopwatch = Stopwatch.StartNew();
+
+            logService.SaveLogs(logModels);
+
+            stopwatch.Stop();
+
+            Console.Write($"Time execution on save logs {stopwatch.ElapsedMilliseconds}");
+            Console.WriteLine();
+
+            Console.Write($"End saving {logModels.Count} logs to database .");
+            Console.WriteLine();
         }
     }
 }

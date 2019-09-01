@@ -3,6 +3,7 @@
     using DataAccess.Entities;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class LogRepository : ILogRepository
@@ -14,13 +15,13 @@
             this.dataContext = dataContext;
         }
 
-        public async Task SaveLog(Log log)
+        public void SaveLog(Log log)
         {
             try
             {
                 this.dataContext.Logs.Add(log);
 
-                if (await this.dataContext.SaveChangesAsync() <= 0)
+                if (this.dataContext.SaveChanges() <= 0)
                 {
                     throw new Exception("An error occurred while save log to database.");
                 }
@@ -35,16 +36,55 @@
         {
             try
             {
-                this.dataContext.Logs.AddRange(logs);
-
-                if (this.dataContext.SaveChanges() <= 0)
+                try
                 {
-                    throw new Exception("An error occurred while save logs to database.");
+                    int count = logs.Count;
+
+                    List<List<Log>> bulkList = new List<List<Log>>();
+
+                    int skip = 0;
+
+                    while (count > 0)
+                    {
+                        if (count < 1000)
+                        {
+                            bulkList.Add(logs.Skip(skip).Take(count).ToList());
+                        }
+                        else
+                        {
+                            bulkList.Add(logs.Skip(skip).Take(1000).ToList());
+                        }
+                        
+                        count -= 1000;
+
+                        skip += 1000;
+                    }
+
+                    Parallel.ForEach(bulkList, bulk =>
+                    {
+                        AddToContext(bulk);
+                    });
+                }
+                catch
+                {
+                    throw;
                 }
             }
             catch (Exception ex)
             {
                 throw new Exception($"An error occurred while save logs to database. Error: {ex.Message}");
+            }
+        }
+
+        private void AddToContext(List<Log> entities)
+        {
+            using (DataContext dataContext = new DataContext())
+            {
+                //dataContext.AddRange(entities);
+
+                //dataContext.SaveChanges();
+
+                dataContext.BulkInsert(entities, op => op.AutoMapOutputDirection = false);
             }
         }
     }

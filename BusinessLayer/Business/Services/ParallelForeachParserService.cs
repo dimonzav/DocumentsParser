@@ -3,8 +3,8 @@
     using Business.Models;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
-    using System.Linq;
     using System.Threading.Tasks;
 
     public class ParallelForeachParserService : IParserService
@@ -18,26 +18,41 @@
             this.logService = logService;
         }
 
-        public void RunParser(string[] files)
+        public void RunParser(string[] files, bool isSaveLogsToDB)
         {
+            Stopwatch stopwatch = Stopwatch.StartNew();
+
             Parallel.ForEach(files, f =>
             {
-                Console.WriteLine();
                 Console.Write($"Parse file {f} starts...");
                 Console.WriteLine();
 
-                this.ParseFile(f);
+                List<LogModel> logModelsFromFile = this.ParseFile(f);
+
+                logModels.AddRange(logModelsFromFile);
 
                 Console.Write($"Parse file {f} ends.");
                 Console.WriteLine();
             });
+
+            stopwatch.Stop();
+
+            Console.Write($"Time execution on parse files {stopwatch.ElapsedMilliseconds}");
+            Console.WriteLine();
+
+            Console.Write($"{logModels.Count} logs line parsed from {files.Length} log files.");
+            Console.WriteLine();
+
+            this.SaveLogsToDB(isSaveLogsToDB);
         }
 
-        private void ParseFile(string file)
+        private List<LogModel> ParseFile(string file)
         {
             using (StreamReader reader = new StreamReader(file))
             {
                 string line = reader.ReadLine();
+
+                List<LogModel> logModels = new List<LogModel>();
 
                 while ((line = reader.ReadLine()) != null)
                 {
@@ -57,23 +72,33 @@
                     }
 
                     logModels.Add(logModel);
-
-                    logService.SaveLog(logModel).Wait();
                 }
+
+                return logModels;
             }
         }
 
-        public static IEnumerable<string> ReadAllLines(string filename)
+        private void SaveLogsToDB(bool isSaveLogsToDB)
         {
-            using (var reader = new StreamReader(filename))
+            if (!isSaveLogsToDB)
             {
-                string line;
-
-                while ((line = reader.ReadLine()) != null)
-                {
-                    yield return line;
-                }
+                return;
             }
+
+            Console.Write($"Saving {logModels.Count} logs to database.");
+            Console.WriteLine();
+
+            Stopwatch stopwatch = Stopwatch.StartNew();
+
+            logService.SaveLogs(logModels);
+
+            stopwatch.Stop();
+
+            Console.Write($"Time execution on save logs {stopwatch.ElapsedMilliseconds}");
+            Console.WriteLine();
+
+            Console.Write($"End saving {logModels.Count} logs to database .");
+            Console.WriteLine();
         }
     }
 }

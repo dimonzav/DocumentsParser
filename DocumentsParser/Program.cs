@@ -11,11 +11,9 @@
     {
         static void Main(string[] args)
         {
-            args = new[] { "a", "-f", @"C:\Users\dmytr\Desktop\log3" };
-            
             ServiceProvider serviceProvider = new ServiceCollection()
             .AddLogging()
-            .AddSingleton<DataContext>()
+            .AddTransient<DataContext>()
             .AddSingleton<ILogRepository, LogRepository>()
             .AddSingleton<BlockingCollectionParserService>()
             .AddSingleton<ParallelForeachParserService>()
@@ -37,8 +35,8 @@
             Parser.Default
                 .ParseArguments<ParallelForeachParserOptions, BlockingCollectionParserOptions>(args)
                    .MapResult(
-                   (ParallelForeachParserOptions opts) => Verbs.RunCommand(opts, serviceProvider),
-                   (BlockingCollectionParserOptions opts) => Verbs.RunCommand(opts, serviceProvider),
+                   (ParallelForeachParserOptions opts) => Verbs.RunCommand(opts, ParallelForeachParserService.logModels, serviceProvider),
+                   (BlockingCollectionParserOptions opts) => Verbs.RunCommand(opts, BlockingCollectionParserService.logModels, serviceProvider),
                    (parserErrors) => 1);
         }
     }
