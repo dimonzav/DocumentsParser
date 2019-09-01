@@ -16,12 +16,15 @@ To run the application:
 
 5. There are two methods available to run the parser from:
 - Run document parser using Parallel.ForEach method;
-- Run document parser using BlockingCollection with running two parallel tasks.
+- Run document parser using BlockingCollection with running two parallel tasks;
+- Run document parser using asynchronous tasks.
 
 6. For using Parallel.ForEach run "dotnet DocumentsParser.dll a -f "path/to/folder/with/logs".
 
 7. For using BlockingCollection run "dotnet DocumentsParser.dll b -f "path/to/folder/with/logs".
 
-8. By default parsed logs from specific files do not save to database. To enable it use option "-s" and value "true".
+8. For using asynchronous tasks run "dotnet DocumentsParser.dll c -f "path/to/folder/with/logs".
+
+9. By default parsed logs from specific files do not save to database. To enable it use option "-s" and value "true".
 
 - "dotnet DocumentsParser.dll a -f "path/to/folder/with/logs -s true"
