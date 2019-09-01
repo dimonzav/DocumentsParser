@@ -18,7 +18,7 @@
         }
 
         [Fact]
-        public void ReadTraceFileTest()
+        public void ParseFileTest()
         {
             string[] mockFiles = new string[]
             {

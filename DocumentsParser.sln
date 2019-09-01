@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataAccessLayer", "DataAcce
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccessLayer\DataAccess\DataAccess.csproj", "{3FA551BB-51FF-4B3B-A55F-AB318599A86C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess.Tests", "DataAccess.Tests\DataAccess.Tests.csproj", "{3DB49082-C887-4A01-80B6-A75B461BC7E7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{3FA551BB-51FF-4B3B-A55F-AB318599A86C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FA551BB-51FF-4B3B-A55F-AB318599A86C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FA551BB-51FF-4B3B-A55F-AB318599A86C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DB49082-C887-4A01-80B6-A75B461BC7E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DB49082-C887-4A01-80B6-A75B461BC7E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DB49082-C887-4A01-80B6-A75B461BC7E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DB49082-C887-4A01-80B6-A75B461BC7E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -45,6 +51,7 @@ Global
 		{6D17EB30-31BD-41E4-B89B-E445A92EEF60} = {2E77C21A-635A-4D8C-8849-2F4742F3CD8B}
 		{1D624CA3-5EF1-4359-9036-C029C02120FC} = {2E77C21A-635A-4D8C-8849-2F4742F3CD8B}
 		{3FA551BB-51FF-4B3B-A55F-AB318599A86C} = {EB0D5972-4ECE-4DA0-B40C-7F50CDD0FC8C}
+		{3DB49082-C887-4A01-80B6-A75B461BC7E7} = {EB0D5972-4ECE-4DA0-B40C-7F50CDD0FC8C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {45D354CE-6953-4475-89A9-0AD1A72232A7}

@@ -12,3 +12,5 @@
 /DocumentsParser/bin
 /DocumentsParser/obj/Release/netcoreapp2.2
 /DocumentsParser/obj
+/DataAccess.Tests/bin/Debug/netcoreapp2.2
+/DataAccess.Tests/obj
