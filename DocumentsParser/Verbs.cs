@@ -3,9 +3,7 @@
     using Business.Models;
     using Business.Services;
     using Microsoft.Extensions.DependencyInjection;
-    using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
 
     public static class Verbs
@@ -18,6 +16,11 @@
         public static int RunCommand(BlockingCollectionParserOptions blockingCollectionParserOptions, List<LogModel> logModels, ServiceProvider serviceProvider)
         {
             return RunCommand<BlockingCollectionParserOptions, BlockingCollectionParserService, LogModel>(blockingCollectionParserOptions, logModels, serviceProvider);
+        }
+
+        public static int RunCommand(TaskAsyncParserOptions taskAsyncParserOptions, List<LogModel> logModels, ServiceProvider serviceProvider)
+        {
+            return RunCommand<TaskAsyncParserOptions, TasksAsyncParserService, LogModel>(taskAsyncParserOptions, logModels, serviceProvider);
         }
 
         private static int RunCommand<TParserOptions, TParserService, TModel>(TParserOptions parserOptions, List<TModel> items, ServiceProvider serviceProvider)

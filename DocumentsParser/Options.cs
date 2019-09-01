@@ -18,4 +18,8 @@
     [Verb("b", HelpText = "Run document parser using BlockingCollection with running two parallel tasks.")]
     public class BlockingCollectionParserOptions : ParserOptions
     { }
+
+    [Verb("c", HelpText = "Run document parser using asynchronous tasks.")]
+    public class TaskAsyncParserOptions : ParserOptions
+    { }
 }

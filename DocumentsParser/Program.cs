@@ -11,12 +11,15 @@
     {
         static void Main(string[] args)
         {
+            //args = new string[] { "c", "-f", @"C:\Users\dmytr\Desktop\log3" };
+
             ServiceProvider serviceProvider = new ServiceCollection()
             .AddLogging()
             .AddTransient<DataContext>()
             .AddSingleton<ILogRepository, LogRepository>()
             .AddSingleton<BlockingCollectionParserService>()
             .AddSingleton<ParallelForeachParserService>()
+            .AddSingleton<TasksAsyncParserService>()
             .AddSingleton<ILogService, LogService>()
             .BuildServiceProvider();
 
@@ -33,10 +36,11 @@
             }
 
             Parser.Default
-                .ParseArguments<ParallelForeachParserOptions, BlockingCollectionParserOptions>(args)
+                .ParseArguments<ParallelForeachParserOptions, BlockingCollectionParserOptions, TaskAsyncParserOptions>(args)
                    .MapResult(
                    (ParallelForeachParserOptions opts) => Verbs.RunCommand(opts, ParallelForeachParserService.logModels, serviceProvider),
                    (BlockingCollectionParserOptions opts) => Verbs.RunCommand(opts, BlockingCollectionParserService.logModels, serviceProvider),
+                   (TaskAsyncParserOptions opts) => Verbs.RunCommand(opts, TasksAsyncParserService.logModels, serviceProvider),
                    (parserErrors) => 1);
         }
     }
